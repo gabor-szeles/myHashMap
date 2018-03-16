@@ -61,6 +61,18 @@ class MyHashMapTest {
         assertThrows(IllegalArgumentException.class, ()-> testMap.getValue(2));
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {1,2,3,4,5})
+    public void testClearAllWorksCorrectly(int key) {
+        testMap.add(1, "Test 1");
+        testMap.add(2, "Test 2");
+        testMap.add(3, "Test 3");
+        testMap.add(4, "Test 4");
+        testMap.add(5, "Test 5");
+        testMap.clearAll();
+        assertThrows(IllegalArgumentException.class, ()-> testMap.getValue(key));
+    }
+
 
 
 }

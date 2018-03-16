@@ -52,6 +52,12 @@ public class MyHashMap<K, V> {
         list.remove(resultNode);
     }
 
+    public void clearAll() {
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] = new LinkedList<>();
+        }
+    }
+
 
 
     //Auxiliary methods
