@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.HashMap;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -110,6 +110,29 @@ class MyHashMapTest {
         // Test written with a default bucket size of 8 in mind!
         testMap.add(1, "Test");
         assertEquals(4, testMap.getBucketSize());
+    }
+
+    @Test
+    public void testGetKeySetWorksCorrect() {
+        testMap.add(1, "Test");
+        testMap.add(2, "Test");
+        testMap.add(3, "Test");
+        testMap.add(4, "Test");
+        testMap.add(5, "Test");
+        assertEquals(new HashSet<>(Arrays.asList(1,2,3,4,5)), testMap.getKeySet());
+    }
+
+    @Test
+    public void testGetAllValuesWorksCorrect() {
+        testMap.add(1, "A");
+        testMap.add(2, "B");
+        testMap.add(3, "C");
+        testMap.add(4, "D");
+        testMap.add(5, "E");
+        testMap.add(6, "A");
+        List<String> testList = testMap.getAllValues();
+        Collections.sort(testList);
+        assertEquals(Arrays.asList("A", "A", "B", "C", "D", "E"), testList);
     }
 
 

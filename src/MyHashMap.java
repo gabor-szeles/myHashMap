@@ -1,7 +1,7 @@
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class MyHashMap<K, V> {
 
@@ -66,6 +66,24 @@ public class MyHashMap<K, V> {
             elements[i] = new LinkedList<>();
         }
         elementsNumber = 0;
+    }
+
+    public Set<K> getKeySet() {
+        Set<K> resultSet = new HashSet<>();
+        Set<KeyValueNode> allDataSet = getKeyValueNodes();
+        for (KeyValueNode node:allDataSet) {
+            resultSet.add((K)node.getKey());
+        }
+        return resultSet;
+    }
+
+    public List<V> getAllValues() {
+        List<V> resultList = new ArrayList<>();
+        Set<KeyValueNode> allDataSet = getKeyValueNodes();
+        for (KeyValueNode node:allDataSet) {
+            resultList.add((V)node.getValue());
+        }
+        return resultList;
     }
 
 
