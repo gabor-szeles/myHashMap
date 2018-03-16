@@ -17,10 +17,21 @@ public class MyHashMap<K, V> {
         LinkedList list = elements[position];
         Predicate<KeyValueNode> keyExists = e->e.getKey() == key;
         if(list.stream().anyMatch(keyExists)) {
-            throw new IllegalArgumentException("Key already exists");
+            throw new IllegalArgumentException("Key already exists!");
         }
         list.add(new KeyValueNode<>(key, value));
         resizeIfNeeded();
+    }
+
+    public V getValue(K key) {
+        int position = getHash(key);
+        LinkedList list = elements[position];
+        Predicate<KeyValueNode> keyPredicate = e->e.getKey() == key;
+        if(!list.stream().anyMatch(keyPredicate)) {
+            throw new IllegalArgumentException("Key doesn't exist!");
+        }
+        KeyValueNode resultNode = (KeyValueNode) list.stream().filter(keyPredicate).findFirst().get();
+        return (V) resultNode.getValue();
     }
 
     private int getHash(K key) {
