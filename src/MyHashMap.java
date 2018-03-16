@@ -12,7 +12,11 @@ public class MyHashMap<K, V> {
         }
     }
 
+
+    //Main methods
+
     public void add(K key, V value) {
+        nullKeyCheck(key);
         int position = getHash(key);
         LinkedList list = elements[position];
         Predicate<KeyValueNode> keyExists = e->e.getKey() == key;
@@ -23,7 +27,9 @@ public class MyHashMap<K, V> {
         resizeIfNeeded();
     }
 
+
     public V getValue(K key) {
+        nullKeyCheck(key);
         int position = getHash(key);
         LinkedList list = elements[position];
         Predicate<KeyValueNode> keyPredicate = e->e.getKey() == key;
@@ -32,6 +38,28 @@ public class MyHashMap<K, V> {
         }
         KeyValueNode resultNode = (KeyValueNode) list.stream().filter(keyPredicate).findFirst().get();
         return (V) resultNode.getValue();
+    }
+
+    public void remove(K key) {
+        nullKeyCheck(key);
+        int position = getHash(key);
+        LinkedList list = elements[position];
+        Predicate<KeyValueNode> keyPredicate = e->e.getKey() == key;
+        if(!list.stream().anyMatch(keyPredicate)) {
+            throw new IllegalArgumentException("Key doesn't exist!");
+        }
+        KeyValueNode resultNode = (KeyValueNode) list.stream().filter(keyPredicate).findFirst().get();
+        list.remove(resultNode);
+    }
+
+
+
+    //Auxiliary methods
+
+    private void nullKeyCheck(K key) {
+        if(key==null) {
+            throw new IllegalArgumentException("Key cannot be null!");
+        }
     }
 
     private int getHash(K key) {
