@@ -135,6 +135,19 @@ class MyHashMapTest {
         assertEquals(Arrays.asList("A", "A", "B", "C", "D", "E"), testList);
     }
 
+    @Test
+    public void testUpdateWorksCorrect() {
+        testMap.add(1, "Test");
+        testMap.update(1, "Updated");
+        assertEquals("Updated", testMap.getValue(1));
+    }
+
+    @Test
+    public void testUpdateThrowsExceptionForWrongKey() {
+        testMap.add(1, "Test");
+        assertThrows(IllegalArgumentException.class, ()-> testMap.update(2, "wrong key"));
+    }
+
 
 
 }

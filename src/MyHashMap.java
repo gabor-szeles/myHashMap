@@ -86,6 +86,18 @@ public class MyHashMap<K, V> {
         return resultList;
     }
 
+    public void update(K key, V value) {
+        nullKeyCheck(key);
+        int position = getHash(key);
+        LinkedList list = elements[position];
+        Predicate<KeyValueNode> keyPredicate = e->e.getKey() == key;
+        if(!list.stream().anyMatch(keyPredicate)) {
+            throw new IllegalArgumentException("Key doesn't exist!");
+        }
+        KeyValueNode targetNode = (KeyValueNode) list.stream().filter(keyPredicate).findFirst().get();
+        targetNode.setValue(value);
+    }
+
 
 
     //Auxiliary methods
