@@ -73,6 +73,45 @@ class MyHashMapTest {
         assertThrows(IllegalArgumentException.class, ()-> testMap.getValue(key));
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19})
+    public void testDynamicResizeWontLoseDataWithUpSize(int key) {
+        // Test written with a default bucket size of 8 in mind!
+        for (int i = 0; i < 20; i++) {
+            testMap.add(i, "Test "+i);
+        }
+        assertEquals("Test " +key, testMap.getValue(key));
+    }
+
+    @Test
+    public void testBucketSizeUpScales() {
+        // Test written with a default bucket size of 8 in mind!
+        for (int i = 0; i < 20; i++) {
+            testMap.add(i, "Test "+i);
+        }
+        assertEquals(16, testMap.getBucketSize());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {6,7,8,9,10,11,12,13,14,15,16,17,18,19})
+    public void testDynamicResizeWontLoseDataWithDownSize(int key) {
+        // Test written with a default bucket size of 8 in mind!
+        for (int i = 0; i < 20; i++) {
+            testMap.add(i, "Test "+i);
+        }
+        for (int i = 0; i < 6; i++) {
+            testMap.remove(i);
+        }
+        assertEquals("Test " +key, testMap.getValue(key));
+    }
+
+    @Test
+    public void testBucketSizeDownScales() {
+        // Test written with a default bucket size of 8 in mind!
+        testMap.add(1, "Test");
+        assertEquals(4, testMap.getBucketSize());
+    }
+
 
 
 }
